@@ -13,6 +13,15 @@ class UserService {
         }
         this.aws = new Aws();
     }
+
+    /**
+   * Creates user and saves the uploaded video and screenshot
+   * @param {string} data.name Username
+   * @param {string} data.email user email
+   * @param {number} data.age user age
+   * @param {File} file file containing buffer
+   * @return {Object<User>}
+   */
     async create(data) {
         UserService.validateFromData(data);
         const { file } = data;
@@ -39,18 +48,38 @@ class UserService {
         }
     };
     
+    /**
+   * Creates user in DB
+   * @param {string} data.name Username
+   * @param {string} data.email user email
+   * @param {number} data.age user age
+   * @return {Promise<*>}
+   */
     async createUser(data) {
         const encryptedName = await encrypt(data.name);
         const encryptedEmail = await encrypt(data.email);
         return this.models.User.create({name: encryptedName, email: encryptedEmail, age: data.age});
     };
 
+    /**
+   * Removes files in given path
+   * @param {string[]} files array of filepaths
+   * @return {Void<*>}
+   */
     static cleanUpFiles(files) {
         for(const file of files) {
             fs.unlink(file)
         }
     };
 
+    /**
+   * Validates fromdata
+   * @param {string} data.name Username
+   * @param {string} data.email user email
+   * @param {number} data.age user age
+   * @param {File} file file containing buffer
+   * @return {Object<*>} { valid: bool, msg: string }
+   */
     static validateFromData(data) {
         let msg;
         let valid = true;
@@ -71,6 +100,13 @@ class UserService {
         return { valid }
     };
 
+    /**
+   * Generates and saves screenshot from video file and adds info to user
+   * @param {File} file file containing buffer
+   * @param {User} user user
+   * @param {srtring} uuid unique uuid
+   * @return {Object<ETag>} { ETag: string }
+   */
     async takeScreenShot(file, user, uuid) {
         const fileExtention = file.name.substring(file.name.lastIndexOf('.'), file.name.length);
         const videoFilePath = `${__dirname}/../temp/videos/${uuid}_${file.name}`

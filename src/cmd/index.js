@@ -18,7 +18,6 @@ app.use(upload());
 app.use('/api', router);
 
 app.listen(process.env.PORT, () => {
-    console.log(process.env);
     console.log('server running on port:' + process.env.PORT);
 })
 
