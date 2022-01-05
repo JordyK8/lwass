@@ -1,0 +1,55 @@
+version: '3'
+services:
+  nodejs-app:
+    image: livewall-assignment
+    build: ./
+    command: npm start
+    container_name: nodejsserver
+    ports: 
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - "mongodb_container"
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+  minio:
+    container_name: minio
+    image: minio/minio:latest
+    restart: 'no'
+    environment:
+      MINIO_ACCESS_KEY: admin
+      MINIO_SECRET_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+    ports:
+      - '9000:9000'
+    volumes:
+      - 'minio-data:/data'
+    command: server /data
+  minio-mc:
+    image: minio/mc:latest
+    container_name: minio-mc
+    depends_on:
+      - minio
+    volumes:
+      - './docker-scripts/minio/policies:/policies'
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host rm local;
+      /usr/bin/mc config host add --quiet --api s3v4 local http://minio:9000 admin wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY;
+      /usr/bin/mc mb --quiet local/video-storage/;
+      /usr/bin/mc mb --quiet local/screenshot-storage/;
+      exit 0
+      "
+volumes:
+  mongodb_data_container:
+  minio-data:
+
