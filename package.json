@@ -2,13 +2,12 @@
   "name": "assignment_livewall",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/cmd/api-videofile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/cmd/index.js"
+    "start": "nodemon src/cmd/api-videofile.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jordy Kokelaar <jordykokelaar@gmail.com> || GH <jordyk8>",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1050.0",

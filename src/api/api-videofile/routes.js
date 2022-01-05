@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const UserService = require('../svc/user-svc');
+const UserService = require('../../svc/user-svc');
 router.get('/', ( req, res) => {
     res.sendFile(`${__dirname}/public/index.html`);
 })
