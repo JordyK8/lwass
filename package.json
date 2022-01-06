@@ -2,9 +2,9 @@
   "name": "assignment_livewall",
   "version": "1.0.0",
   "description": "",
-  "main": "src/cmd/api-videofile.js",
+  "main": "src/cmd/api-videofile/index.js",
   "scripts": {
-    "start": "nodemon src/cmd/api-videofile.js"
+    "start": "nodemon src/cmd/api-videofile/index.js"
   },
   "keywords": [],
   "author": "Jordy Kokelaar <jordykokelaar@gmail.com> || GH <jordyk8>",

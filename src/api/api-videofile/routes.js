@@ -1,23 +1,20 @@
 const router = require('express').Router();
+const { validateFromData } = require('./middleware');
 const UserService = require('../../svc/user-svc');
+
 router.get('/', ( req, res) => {
     res.sendFile(`${__dirname}/public/index.html`);
-})
+});
 
-router.post('/formSubmit', async (req, res) => {
+router.post('/formSubmit', validateFromData, async (req, res) => {
     const data = {...req.body, ...req.files};
-    const validate = UserService.validateFromData(data);
-
-    if (!validate.valid) {
-        return res.status(400).send(validate.msg);
-      }
     const userService = new UserService();
     try {
         const user = await userService.create(data);
-        res.status(200).send(JSON.stringify(user))
+        res.status(200).json(user)
     } catch(e) {
-        res.status(500).send({"err": e.message});
-    }
-})
+        res.status(500).json(e);
+    };
+});
 
 module.exports = router;

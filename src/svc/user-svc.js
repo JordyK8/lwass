@@ -5,6 +5,7 @@ const fs = require('fs').promises;
 const Aws = require('../lib/aws');
 const User = require('../lib/mongodb/models/User');
 const { v4 } = require ('uuid');
+const constants = require('../lib/constants/glob');
 
 class UserService {
     constructor(){
@@ -23,7 +24,6 @@ class UserService {
    * @return {Object<User>}
    */
     async create(data) {
-        UserService.validateFromData(data);
         const { file } = data;
         file.name = file.name.replace(/\s/g, '');
         const uuid = v4();
@@ -72,33 +72,6 @@ class UserService {
         }
     };
 
-    /**
-   * Validates fromdata
-   * @param {string} data.name Username
-   * @param {string} data.email user email
-   * @param {number} data.age user age
-   * @param {File} file file containing buffer
-   * @return {Object<*>} { valid: bool, msg: string }
-   */
-    static validateFromData(data) {
-        let msg;
-        let valid = true;
-        const validateEmail = (email) => {
-            return String(email)
-              .toLowerCase()
-              .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-              );
-        };
-        if(!data.age) msg = 'Missing age from submition form.'
-        if(!data.name || data.name.length < 2) msg = "Name invalid, note that given name must be at least two characters long.";
-        if(!data.email || !validateEmail(data.email)) msg = "Given emailaddress seems to be invalid.";
-        if(!data.file) msg ='Missing videofile from submition form.';
-        if(data.file && data.file.length > 1073741824) msg = 'File exceeds filesize limit of 1 Gb.';
-        
-        if (msg) return { valid: false, msg }
-        return { valid }
-    };
 
     /**
    * Generates and saves screenshot from video file and adds info to user
@@ -114,7 +87,7 @@ class UserService {
         try{
             await fs.writeFile(videoFilePath, file.data);
 
-            const {stderr, stdout} = await exec(`ffmpeg -i ${videoFilePath} -ss 00:00:01 -vframes 1 ${screenshotFilePath}`)
+            const {stderr, stdout} = await exec(`ffmpeg -i ${videoFilePath} -ss ${constants.VIDEO_SCREENSHOT_TIME} -vframes 1 ${screenshotFilePath}`)
             // Needs error handling but having some issues with getting the right output. File is created though
             if(stderr) console.log(stderr);
             

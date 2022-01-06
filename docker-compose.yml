@@ -12,6 +12,10 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - "mongodb_container"
+      - "minio"
+    links: 
+      - "mongodb_container"
+      - "minio"
   mongodb_container:
     image: mongo:latest
     environment:
