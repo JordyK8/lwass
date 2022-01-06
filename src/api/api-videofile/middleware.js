@@ -30,7 +30,7 @@ const middleware = {
     if (!data.email || !validateEmail(data.email)) msg = "Given emailaddress seems to be invalid.";
     if (!data.file) msg = 'Missing videofile from submition form.';
     if (data.file && data.file.length > constants.MAX_VIDEO_SIZE) msg = 'File exceeds filesize limit of 1 Gb.';
-    if (msg) res.status(400).json({
+    if (msg) res.json({
       error: msg
     });
     next();
