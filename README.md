@@ -1,6 +1,15 @@
 # lwass
 To start project clone into folder.
 
+create a .env file and insert the following in this file:
+```
+PORT=3000
+MONGO_URI="mongodb://root:rootpassword@mongodb_container:27017/test?authSource=admin"
+AWS_ACCESS_KEY="admin"
+AWS_ACCESS_SECRET="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+AWS_ENDPOINT="http://minio:9000"
+```
+
 * Make sure docker and docker-compose are installed on your device. More info: https://docs.docker.com/compose/install/
 
 Inside the cloned repository folder run ```docker-compose build```.
