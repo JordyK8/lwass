@@ -58,6 +58,9 @@ class UserService {
     async createUser(data) {
         const encryptedName = await encrypt(data.name);
         const encryptedEmail = await encrypt(data.email);
+        const userExists = await this.models.User.find({email: encryptedEmail});
+        // for production you want this. But I commented it out for testing purposes.
+        // if(userExists) throw new Error("Email address has already been used.");
         return this.models.User.create({name: encryptedName, email: encryptedEmail, age: data.age});
     };
 
