@@ -24,16 +24,19 @@ const middleware = {
     };
     let msg;
     const fileExtention = data.file.name.substring(data.file.name.lastIndexOf('.'), data.file.name.length);
-    if(!constants.VIDEO_FILE_EXTENSIONS.includes(fileExtention)) msg = "File extension not supported.";
+    if (!constants.VIDEO_FILE_EXTENSIONS.includes(fileExtention)) msg = "File extension not supported.";
     if (!data.age) msg = 'Missing age from submition form.'
     if (!data.name || data.name.length < 2) msg = "Name invalid, note that given name must be at least two characters long.";
     if (!data.email || !validateEmail(data.email)) msg = "Given emailaddress seems to be invalid.";
     if (!data.file) msg = 'Missing videofile from submition form.';
     if (data.file && data.file.length > constants.MAX_VIDEO_SIZE) msg = 'File exceeds filesize limit of 1 Gb.';
-    if (msg) res.json({
-      error: msg
-    });
-    next();
+    if (msg) {
+      res.json({
+        error: msg
+      });
+    } else {
+      next();
+    }
   },
 };
 
