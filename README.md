@@ -1,5 +1,8 @@
 # lwass
 To start project clone into folder.
+
+* Make sure docker and docker-compose are installed on your device. More info: https://docs.docker.com/compose/install/
+
 Inside the cloned repository folder run ```docker-compose build```.
 
 If the following error occurs: 
