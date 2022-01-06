@@ -9,6 +9,7 @@ run the following command in your terminal: ```export LD_LIBRARY_PATH=/usr/local
 
 Next run ```docker-compose up``` or  ```docker-compose up -d```(detatched) - to start project.
 
-Api is then available on localhost:3000/api
-Minio server is available on lcoalhsot:9000
-MongoDB is reachable on mongodb://<username>:<password>@localhost:27017
+Api is then available on ```http://localhost:3000/api```
+Form page is availbale on ```http://localhost:3000/api```
+Minio server is available on ```http://lcoalhsot:9000```
+MongoDB is reachable on ```mongodb://<username>:<password>@localhost:27017```
