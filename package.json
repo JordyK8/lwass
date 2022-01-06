@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/cmd/api-videofile/index.js",
   "scripts": {
-    "start": "nodemon src/cmd/api-videofile/index.js"
+    "start": "node src/cmd/api-videofile/index.js"
   },
   "keywords": [],
   "author": "Jordy Kokelaar <jordykokelaar@gmail.com> || GH <jordyk8>",
