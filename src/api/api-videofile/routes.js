@@ -11,11 +11,9 @@ router.post('/formSubmit', validateFromData, async (req, res) => {
     const userService = new UserService();
     try {
         const user = await userService.create(data);
-        console.log('yeah');
-        console.log(user);
         res.json(user);
     } catch(e) {
-        res.status(500).json(e);
+        res.json(e);
     };
 });
 
